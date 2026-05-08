@@ -19,7 +19,7 @@ model User {
   password  String
   phone     String
   role      Role     @default(PEMBELI)
-
+booking Booking[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -28,8 +28,82 @@ model JenisKereta {
   id          Int      @id @default(autoincrement())
   nama        String
   deskripsi   String?
+
+  jadwal      Jadwal[]
+
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Gerbong {
+  id          Int      @id @default(autoincrement())
+  nama        String
+  kapasitas   Int
+
+  jadwalId    Int
+  jadwal      Jadwal   @relation(fields: [jadwalId], references: [id])
+
+kursi Kursi[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Jadwal {
+  id                 Int           @id @default(autoincrement())
+  asal               String
+  tujuan             String
+  tanggalBerangkat   DateTime
+  jamBerangkat       String
+  jamTiba            String
+  harga              Int
+  
+
+  jenisKeretaId      Int
+  jenisKereta        JenisKereta @relation(fields: [jenisKeretaId], references: [id])
+
+gerbong Gerbong[]
+
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+model Kursi {
+  id          Int           @id @default(autoincrement())
+  nomor       String
+  status      StatusKursi   @default(AVAILABLE)
+
+  gerbongId   Int
+  gerbong     Gerbong       @relation(fields: [gerbongId], references: [id])
+booking Booking[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+model Booking {
+  id            Int             @id @default(autoincrement())
+
+  kodeBooking   String          @unique
+
+  userId        Int
+  user          User            @relation(fields: [userId], references: [id])
+
+  kursiId       Int
+  kursi         Kursi           @relation(fields: [kursiId], references: [id])
+
+  status        StatusBooking   @default(PENDING)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum StatusKursi {
+  AVAILABLE
+  BOOKED
+}
+
+enum StatusBooking {
+  PENDING
+  SUCCESS
+  CANCELLED
 }
 
 enum Role {

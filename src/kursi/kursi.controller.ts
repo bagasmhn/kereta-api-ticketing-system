@@ -1,7 +1,7 @@
 import {
   Body,
   Controller,
-  Delete,
+ Delete,
   Get,
   Param,
   Post,
@@ -9,38 +9,39 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { JenisKeretaService } from './jenis-kereta.service';
-import { CreateJenisKeretaDto } from './dto/create-jenis-kereta.dto';
-import { UpdateJenisKeretaDto } from './dto/update-jenis-kereta.dto';
+import { KursiService } from './kursi.service';
+
+import { CreateKursiDto } from './dto/create-kursi.dto';
+import { UpdateKursiDto } from './dto/update-kursi.dto';
 
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorators';
 
-@Controller('jenis-kereta')
-export class JenisKeretaController {
+@Controller('kursi')
+export class KursiController {
   constructor(
-    private readonly jenisKeretaService: JenisKeretaService,
+    private readonly kursiService: KursiService,
   ) {}
 
   // CREATE
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('PETUGAS')
   @Post()
-  create(@Body() dto: CreateJenisKeretaDto) {
-    return this.jenisKeretaService.create(dto);
+  create(@Body() dto: CreateKursiDto) {
+    return this.kursiService.create(dto);
   }
 
-  // GET ALL (PUBLIC)
+  // GET ALL
   @Get()
   findAll() {
-    return this.jenisKeretaService.findAll();
+    return this.kursiService.findAll();
   }
 
-  // GET BY ID (PUBLIC)
+  // GET BY ID
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.jenisKeretaService.findOne(Number(id));
+    return this.kursiService.findOne(Number(id));
   }
 
   // UPDATE
@@ -49,9 +50,9 @@ export class JenisKeretaController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() dto: UpdateJenisKeretaDto,
+    @Body() dto: UpdateKursiDto,
   ) {
-    return this.jenisKeretaService.update(Number(id), dto);
+    return this.kursiService.update(Number(id), dto);
   }
 
   // DELETE
@@ -59,6 +60,6 @@ export class JenisKeretaController {
   @Roles('PETUGAS')
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.jenisKeretaService.remove(Number(id));
+    return this.kursiService.remove(Number(id));
   }
 }

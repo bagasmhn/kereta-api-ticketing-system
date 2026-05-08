@@ -9,38 +9,39 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { JenisKeretaService } from './jenis-kereta.service';
-import { CreateJenisKeretaDto } from './dto/create-jenis-kereta.dto';
-import { UpdateJenisKeretaDto } from './dto/update-jenis-kereta.dto';
+import { JadwalService } from './jadwal.service';
+
+import { CreateJadwalDto } from './dto/create-jadwal.dto';
+import { UpdateJadwalDto } from './dto/update-jadwal.dto';
 
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorators';
 
-@Controller('jenis-kereta')
-export class JenisKeretaController {
+@Controller('jadwal')
+export class JadwalController {
   constructor(
-    private readonly jenisKeretaService: JenisKeretaService,
+    private readonly jadwalService: JadwalService,
   ) {}
 
   // CREATE
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('PETUGAS')
   @Post()
-  create(@Body() dto: CreateJenisKeretaDto) {
-    return this.jenisKeretaService.create(dto);
+  create(@Body() dto: CreateJadwalDto) {
+    return this.jadwalService.create(dto);
   }
 
   // GET ALL (PUBLIC)
   @Get()
   findAll() {
-    return this.jenisKeretaService.findAll();
+    return this.jadwalService.findAll();
   }
 
   // GET BY ID (PUBLIC)
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.jenisKeretaService.findOne(Number(id));
+    return this.jadwalService.findOne(Number(id));
   }
 
   // UPDATE
@@ -49,9 +50,9 @@ export class JenisKeretaController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() dto: UpdateJenisKeretaDto,
+    @Body() dto: UpdateJadwalDto,
   ) {
-    return this.jenisKeretaService.update(Number(id), dto);
+    return this.jadwalService.update(Number(id), dto);
   }
 
   // DELETE
@@ -59,6 +60,6 @@ export class JenisKeretaController {
   @Roles('PETUGAS')
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.jenisKeretaService.remove(Number(id));
+    return this.jadwalService.remove(Number(id));
   }
 }

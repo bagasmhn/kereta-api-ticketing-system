@@ -3,11 +3,15 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { JenisKeretaModule } from './jenis-kereta/jenis-kereta.module';
+import { JadwalModule } from './jadwal/jadwal.module';
+import { GerbongModule } from './gerbong/gerbong.module';
+import { KursiModule } from './kursi/kursi.module';
+import { BookingModule } from './booking/booking.module';
+
 
 @Module({
   imports: [
@@ -23,6 +27,10 @@ import { JenisKeretaModule } from './jenis-kereta/jenis-kereta.module';
     AuthModule,
     PrismaModule,
     JenisKeretaModule,
+    JadwalModule,
+    GerbongModule,
+    KursiModule,
+    BookingModule,
   ],
 
   controllers: [AppController],

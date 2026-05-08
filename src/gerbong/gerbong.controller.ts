@@ -9,38 +9,39 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { JenisKeretaService } from './jenis-kereta.service';
-import { CreateJenisKeretaDto } from './dto/create-jenis-kereta.dto';
-import { UpdateJenisKeretaDto } from './dto/update-jenis-kereta.dto';
+import { GerbongService } from './gerbong.service';
+
+import { CreateGerbongDto } from './dto/create-gerbong.dto';
+import { UpdateGerbongDto } from './dto/update-gerbong.dto';
 
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorators';
 
-@Controller('jenis-kereta')
-export class JenisKeretaController {
+@Controller('gerbong')
+export class GerbongController {
   constructor(
-    private readonly jenisKeretaService: JenisKeretaService,
+    private readonly gerbongService: GerbongService,
   ) {}
 
   // CREATE
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('PETUGAS')
   @Post()
-  create(@Body() dto: CreateJenisKeretaDto) {
-    return this.jenisKeretaService.create(dto);
+  create(@Body() dto: CreateGerbongDto) {
+    return this.gerbongService.create(dto);
   }
 
-  // GET ALL (PUBLIC)
+  // GET ALL
   @Get()
   findAll() {
-    return this.jenisKeretaService.findAll();
+    return this.gerbongService.findAll();
   }
 
-  // GET BY ID (PUBLIC)
+  // GET BY ID
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.jenisKeretaService.findOne(Number(id));
+    return this.gerbongService.findOne(Number(id));
   }
 
   // UPDATE
@@ -49,9 +50,9 @@ export class JenisKeretaController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() dto: UpdateJenisKeretaDto,
+    @Body() dto: UpdateGerbongDto,
   ) {
-    return this.jenisKeretaService.update(Number(id), dto);
+    return this.gerbongService.update(Number(id), dto);
   }
 
   // DELETE
@@ -59,6 +60,6 @@ export class JenisKeretaController {
   @Roles('PETUGAS')
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.jenisKeretaService.remove(Number(id));
+    return this.gerbongService.remove(Number(id));
   }
 }
