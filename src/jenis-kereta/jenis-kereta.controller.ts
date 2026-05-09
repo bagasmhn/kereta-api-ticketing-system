@@ -25,7 +25,7 @@ export class JenisKeretaController {
 
   // CREATE
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('PETUGAS')
+@Roles('SUPER_ADMIN', 'PETUGAS')
   @Post()
   create(@Body() dto: CreateJenisKeretaDto) {
     return this.jenisKeretaService.create(dto);
@@ -45,7 +45,7 @@ export class JenisKeretaController {
 
   // UPDATE
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('PETUGAS')
+@Roles('SUPER_ADMIN', 'PETUGAS')
   @Put(':id')
   update(
     @Param('id') id: string,
@@ -56,7 +56,7 @@ export class JenisKeretaController {
 
   // DELETE
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('PETUGAS')
+@Roles('SUPER_ADMIN', 'PETUGAS')
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.jenisKeretaService.remove(Number(id));

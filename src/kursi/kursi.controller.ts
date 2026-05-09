@@ -26,7 +26,7 @@ export class KursiController {
 
   // CREATE
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('PETUGAS')
+@Roles('SUPER_ADMIN', 'PETUGAS')
   @Post()
   create(@Body() dto: CreateKursiDto) {
     return this.kursiService.create(dto);
@@ -46,7 +46,7 @@ export class KursiController {
 
   // UPDATE
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('PETUGAS')
+ @Roles('SUPER_ADMIN', 'PETUGAS')
   @Put(':id')
   update(
     @Param('id') id: string,
@@ -57,7 +57,7 @@ export class KursiController {
 
   // DELETE
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('PETUGAS')
+@Roles('SUPER_ADMIN', 'PETUGAS')
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.kursiService.remove(Number(id));

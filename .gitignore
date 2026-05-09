@@ -11,7 +11,10 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-
+node_modules
+dist
+.env
+.prisma
 # OS
 .DS_Store
 

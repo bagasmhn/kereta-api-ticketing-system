@@ -5,28 +5,21 @@ import { PrismaService } from '../prisma/prisma.service';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
+  // CREATE USER
   async create(data: any) {
     return this.prisma.user.create({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       data,
     });
   }
 
+  // FIND USER BY EMAIL
   async findByEmail(email: string) {
     return this.prisma.user.findUnique({
       where: { email },
     });
   }
 
- async findAll() {
-  return this.prisma.user.findMany({
-    where: {
-      NOT: {
-        role: 'PETUGAS',
-      },
-    },
-  });
-}
+  // FIND USER BY ID
   async findById(id: number) {
     return this.prisma.user.findUnique({
       where: { id },
@@ -38,6 +31,70 @@ export class UserService {
         role: true,
         createdAt: true,
       },
+    });
+  }
+
+  // GET USER BY ID
+  async findOne(id: number) {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        role: true,
+        createdAt: true,
+      },
+    });
+  }
+
+  // GET ALL PEMBELI
+  async findAll() {
+    return this.prisma.user.findMany({
+      where: {
+        role: 'PEMBELI',
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        role: true,
+        createdAt: true,
+      },
+    });
+  }
+
+  // GET ALL ADMIN / PETUGAS
+  async findAllAdmin() {
+    return this.prisma.user.findMany({
+      where: {
+        role: 'PETUGAS',
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        role: true,
+        createdAt: true,
+      },
+    });
+  }
+
+  // UPDATE USER
+  async update(id: number, data: any) {
+    return this.prisma.user.update({
+      where: { id },
+      data,
+    });
+  }
+
+  // DELETE USER
+  async remove(id: number) {
+    return this.prisma.user.delete({
+      where: { id },
     });
   }
 }

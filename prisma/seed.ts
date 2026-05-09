@@ -4,31 +4,55 @@ import * as bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 async function main() {
-  // hash password
-  const hashedPassword = await bcrypt.hash('123456', 10);
+  const hashedPassword = await bcrypt.hash(
+    '123456',
+    10,
+  );
 
-  // cek apakah admin sudah ada
-  const adminExists = await prisma.user.findUnique({
-    where: {
-      email: 'admin@gmail.com',
-    },
-  });
+  // SUPER ADMIN
+  const superAdmin =
+    await prisma.user.findUnique({
+      where: {
+        email: 'superadmin@gmail.com',
+      },
+    });
 
-  // kalau belum ada → buat admin
-  if (!adminExists) {
+  if (!superAdmin) {
+    await prisma.user.create({
+      data: {
+        name: 'Super Admin',
+        email: 'superadmin@gmail.com',
+        password: hashedPassword,
+        phone: '081111111111',
+        role: Role.SUPER_ADMIN,
+      },
+    });
+
+    console.log(
+      '✅ Super Admin berhasil dibuat',
+    );
+  }
+
+  // PETUGAS
+  const admin =
+    await prisma.user.findUnique({
+      where: {
+        email: 'admin@gmail.com',
+      },
+    });
+
+  if (!admin) {
     await prisma.user.create({
       data: {
         name: 'Admin',
         email: 'admin@gmail.com',
         password: hashedPassword,
-        phone: '08123456789',
+        phone: '082222222222',
         role: Role.PETUGAS,
       },
     });
 
     console.log('✅ Admin berhasil dibuat');
-  } else {
-    console.log('⚠️ Admin sudah ada');
   }
 }
 
