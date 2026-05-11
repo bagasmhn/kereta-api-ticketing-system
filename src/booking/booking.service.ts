@@ -28,20 +28,21 @@ export class BookingService {
 
     let totalHarga = 0;
 
-    // CHECK KURSI
     for (const item of penumpang) {
-      const kursi = await this.prisma.kursi.findUnique({
-        where: {
-          id: item.kursiId,
-        },
-        include: {
-          gerbong: {
-            include: {
-              jadwal: true,
+      const kursi =
+        await this.prisma.kursi.findUnique({
+          where: {
+            id: item.kursiId,
+          },
+
+          include: {
+            gerbong: {
+              include: {
+                jadwal: true,
+              },
             },
           },
-        },
-      });
+        });
 
       if (!kursi) {
         throw new BadRequestException(
@@ -55,10 +56,10 @@ export class BookingService {
         );
       }
 
-      totalHarga += kursi.gerbong.jadwal.harga;
+      totalHarga +=
+        kursi.gerbong.jadwal.harga;
     }
 
-    // CREATE TRANSAKSI
     const transaksi =
       await this.prisma.transaksi.create({
         data: {
@@ -76,7 +77,6 @@ export class BookingService {
         },
       });
 
-    // CREATE DETAIL BOOKING
     for (const item of penumpang) {
       await this.prisma.detailBooking.create({
         data: {
@@ -91,11 +91,11 @@ export class BookingService {
         },
       });
 
-      // UPDATE STATUS KURSI
       await this.prisma.kursi.update({
         where: {
           id: item.kursiId,
         },
+
         data: {
           status: 'BOOKED',
         },
@@ -165,20 +165,18 @@ export class BookingService {
 
     doc.pipe(res);
 
-    // =========================
     // HEADER
-    // =========================
     doc
       .rect(0, 0, 700, 100)
       .fill('#005BAC');
 
     doc
       .fillColor('white')
-      .fontSize(28)
+      .fontSize(30)
       .text(
         'E-TIKET KERETA',
         50,
-        35,
+        30,
       );
 
     doc
@@ -191,20 +189,28 @@ export class BookingService {
 
     doc.fillColor('black');
 
-    // =========================
-    // BOX INFORMASI
-    // =========================
+    // BOX INFO
     doc
-      .roundedRect(40, 130, 520, 120, 10)
+      .roundedRect(
+        40,
+        130,
+        520,
+        120,
+        10,
+      )
+      .lineWidth(2)
       .stroke('#005BAC');
 
     doc
       .fontSize(18)
+      .fillColor('#005BAC')
       .text(
         'INFORMASI PEMESANAN',
         60,
         145,
       );
+
+    doc.fillColor('black');
 
     doc
       .fontSize(12)
@@ -233,29 +239,34 @@ export class BookingService {
     );
 
     doc.text(
-      `Total Harga : Rp ${transaksi.totalHarga}`,
+      `Total Harga : Rp ${transaksi.totalHarga.toLocaleString('id-ID')}`,
       60,
       220,
     );
 
     let y = 280;
 
-    // =========================
-    // DETAIL PENUMPANG
-    // =========================
-    for (const [index, item] of transaksi.detailBooking.entries()) {
+    for (const [
+      index,
+      item,
+    ] of transaksi.detailBooking.entries()) {
       const jadwal =
         item.kursi.gerbong.jadwal;
 
       const kereta =
         jadwal.jenisKereta;
 
-      // BOX
       doc
-        .roundedRect(40, y, 520, 170, 10)
+        .roundedRect(
+          40,
+          y,
+          520,
+          180,
+          10,
+        )
+        .lineWidth(1.5)
         .stroke('#E67E22');
 
-      // TITLE
       doc
         .fillColor('#E67E22')
         .fontSize(16)
@@ -269,107 +280,56 @@ export class BookingService {
 
       doc.fontSize(12);
 
-      // LEFT SIDE
       doc.text(
-        'Nama',
+        `Nama : ${item.namaPenumpang}`,
         60,
         y + 50,
       );
 
       doc.text(
-        `: ${item.namaPenumpang}`,
-        150,
-        y + 50,
-      );
-
-      doc.text(
-        'NIK',
+        `NIK : ${item.nik}`,
         60,
         y + 70,
       );
 
       doc.text(
-        `: ${item.nik}`,
-        150,
-        y + 70,
-      );
-
-      doc.text(
-        'Kereta',
+        `Kereta : ${kereta.nama}`,
         60,
         y + 90,
       );
 
       doc.text(
-        `: ${kereta.nama}`,
-        150,
-        y + 90,
-      );
-
-      doc.text(
-        'Rute',
+        `Rute : ${jadwal.asal} → ${jadwal.tujuan}`,
         60,
         y + 110,
       );
 
       doc.text(
-        `: ${jadwal.asal} → ${jadwal.tujuan}`,
-        150,
-        y + 110,
-      );
-
-      doc.text(
-        'Tanggal',
-        60,
-        y + 130,
-      );
-
-      doc.text(
-        `: ${new Date(
+        `Tanggal : ${new Date(
           jadwal.tanggalBerangkat,
         ).toLocaleDateString('id-ID')}`,
-        150,
+        60,
         y + 130,
       );
 
-      // RIGHT SIDE
       doc.text(
-        'Jam',
+        `Jam : ${jadwal.jamBerangkat}`,
         320,
         y + 50,
       );
 
       doc.text(
-        `: ${jadwal.jamBerangkat}`,
-        390,
-        y + 50,
-      );
-
-      doc.text(
-        'Gerbong',
+        `Gerbong : ${item.kursi.gerbong.nama}`,
         320,
         y + 70,
       );
 
       doc.text(
-        `: ${item.kursi.gerbong.nama}`,
-        390,
-        y + 70,
-      );
-
-      doc.text(
-        'Kursi',
+        `Kursi : ${item.kursi.nomor}`,
         320,
         y + 90,
       );
 
-      doc.text(
-        `: ${item.kursi.nomor}`,
-        390,
-        y + 90,
-      );
-
-      // QR CODE
       const qr =
         await QRCode.toDataURL(
           transaksi.kodeTransaksi,
@@ -396,17 +356,19 @@ export class BookingService {
         },
       );
 
-      y += 200;
+      y += 210;
+
+      if (y > 650) {
+        doc.addPage();
+        y = 50;
+      }
     }
 
-    // =========================
-    // FOOTER
-    // =========================
     doc
       .fontSize(10)
       .fillColor('gray')
       .text(
-        'Tunjukkan e-ticket ini kepada petugas sebelum keberangkatan.',
+        'Terima kasih telah menggunakan layanan PT Kereta Api Indonesia.',
         40,
         760,
         {
@@ -418,30 +380,16 @@ export class BookingService {
   }
 
   // =========================
-  // GET ALL TRANSAKSI
+  // GET ALL
   // =========================
   async findAll() {
     return this.prisma.transaksi.findMany({
       include: {
         user: true,
+      },
 
-        detailBooking: {
-          include: {
-            kursi: {
-              include: {
-                gerbong: {
-                  include: {
-                    jadwal: {
-                      include: {
-                        jenisKereta: true,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
   }
@@ -456,23 +404,7 @@ export class BookingService {
       },
 
       include: {
-        detailBooking: {
-          include: {
-            kursi: {
-              include: {
-                gerbong: {
-                  include: {
-                    jadwal: {
-                      include: {
-                        jenisKereta: true,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
+        detailBooking: true,
       },
 
       orderBy: {
@@ -493,24 +425,7 @@ export class BookingService {
 
         include: {
           user: true,
-
-          detailBooking: {
-            include: {
-              kursi: {
-                include: {
-                  gerbong: {
-                    include: {
-                      jadwal: {
-                        include: {
-                          jenisKereta: true,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
+          detailBooking: true,
         },
       });
 
@@ -522,4 +437,197 @@ export class BookingService {
 
     return transaksi;
   }
+
+  // =========================
+  // HISTORI USER
+  // =========================
+  async historiUser(
+    userId: number,
+    tanggal?: string,
+    bulan?: string,
+  ) {
+    const where: any = {
+      userId,
+    };
+
+    if (tanggal) {
+      const start =
+        new Date(tanggal);
+
+      const end =
+        new Date(tanggal);
+
+      end.setHours(
+        23,
+        59,
+        59,
+        999,
+      );
+
+      where.createdAt = {
+        gte: start,
+        lte: end,
+      };
+    }
+
+    if (bulan) {
+      const year =
+        new Date().getFullYear();
+
+      const start =
+        new Date(
+          year,
+          Number(bulan) - 1,
+          1,
+        );
+
+      const end =
+        new Date(
+          year,
+          Number(bulan),
+          0,
+          23,
+          59,
+          59,
+        );
+
+      where.createdAt = {
+        gte: start,
+        lte: end,
+      };
+    }
+
+    return this.prisma.transaksi.findMany({
+      where,
+
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
+
+  // =========================
+  // HISTORI PETUGAS
+  // =========================
+  async historiPetugas(
+    tanggal?: string,
+    bulan?: string,
+  ) {
+    const where: any = {};
+
+    if (tanggal) {
+      const start =
+        new Date(tanggal);
+
+      const end =
+        new Date(tanggal);
+
+      end.setHours(
+        23,
+        59,
+        59,
+        999,
+      );
+
+      where.createdAt = {
+        gte: start,
+        lte: end,
+      };
+    }
+
+    if (bulan) {
+      const year =
+        new Date().getFullYear();
+
+      const start =
+        new Date(
+          year,
+          Number(bulan) - 1,
+          1,
+        );
+
+      const end =
+        new Date(
+          year,
+          Number(bulan),
+          0,
+          23,
+          59,
+          59,
+        );
+
+      where.createdAt = {
+        gte: start,
+        lte: end,
+      };
+    }
+
+    return this.prisma.transaksi.findMany({
+      where,
+
+      include: {
+        user: true,
+      },
+
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
+
+async rekapPemasukan(
+  bulan?: number,
+  tahun?: number,
+) {
+  const where: any = {
+    status: 'SUCCESS',
+  };
+
+  if (bulan && tahun) {
+    const start = new Date(
+      tahun,
+      bulan - 1,
+      1,
+    );
+
+    const end = new Date(
+      tahun,
+      bulan,
+      0,
+      23,
+      59,
+      59,
+    );
+
+    where.createdAt = {
+      gte: start,
+      lte: end,
+    };
+  }
+
+  const transaksi =
+    await this.prisma.transaksi.findMany({
+      where,
+    });
+
+  const totalPemasukan =
+    transaksi.reduce(
+      (sum, item) =>
+        sum + item.totalHarga,
+      0,
+    );
+
+  return {
+    totalTransaksi:
+      transaksi.length,
+
+    totalPemasukan,
+
+    bulan:
+      bulan || 'Semua',
+
+    tahun:
+      tahun || 'Semua',
+  };
+}
 }

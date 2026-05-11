@@ -12,6 +12,9 @@ import {
 import { BookingService } from './booking.service';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CreateBookingDto } from './dto/create-booking.dto';
+import { Query } from '@nestjs/common';
+import { Roles } from 'src/auth/decorators/roles.decorators';
+import { RolesGuard } from 'src/auth/guard/roles.guard';
 
 @Controller('booking')
 export class BookingController {
@@ -48,6 +51,38 @@ myBooking(
 ) {
   return this.bookingService.myBooking(
     req.user.id,
+  );
+}
+
+// =========================
+// HISTORI USER
+// =========================
+@UseGuards(JwtAuthGuard)
+@Get('history/my')
+historyUser(
+  @Req() req,
+  @Query('tanggal') tanggal?: string,
+  @Query('bulan') bulan?: string,
+) {
+  return this.bookingService.historiUser(
+    req.user.id,
+    tanggal,
+    bulan,
+  );
+}
+
+
+// REKAP PEMASUKAN
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('PETUGAS', 'SUPER_ADMIN')
+@Get('rekap/pemasukan')
+rekapPemasukan(
+  @Query('bulan') bulan?: string,
+  @Query('tahun') tahun?: string,
+) {
+  return this.bookingService.rekapPemasukan(
+    bulan ? Number(bulan) : undefined,
+    tahun ? Number(tahun) : undefined,
   );
 }
 
