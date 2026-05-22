@@ -10,7 +10,7 @@ import { RegisterDto } from './dto/register.dto';
 import { Role } from '@prisma/client'; // ✅ import enum
 
 interface User {
-  id: number;
+  id: number; 
   email: string;
   role?: string;
   password?: string;

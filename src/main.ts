@@ -22,6 +22,9 @@ async function bootstrap() {
     prefix: '/uploads/',
   });
 
+  // GLOBAL PREFIX DULU
+  app.setGlobalPrefix('api');
+
   const config = new DocumentBuilder()
     .setTitle('Library API')
     .setDescription('Backend API Sistem KeretaAPI')
@@ -30,9 +33,9 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
 
-  app.setGlobalPrefix('api');
+  // GUNAKAN docs AGAR TIDAK BENTROK
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(process.env.PORT ?? 3003);
 }
