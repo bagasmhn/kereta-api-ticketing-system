@@ -19,6 +19,7 @@ model User {
 
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+    @@map("user")
 }
 
 model JenisKereta {
@@ -30,6 +31,7 @@ model JenisKereta {
 
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+    @@map("jeniskereta")
 }
 
 model Jadwal {
@@ -52,6 +54,7 @@ model Jadwal {
 
   createdAt            DateTime        @default(now())
   updatedAt            DateTime        @updatedAt
+    @@map("jadwal")
 }
 
 model Gerbong {
@@ -67,6 +70,8 @@ model Gerbong {
 
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
+    @@map("gerbong")
+
 }
 
 model Kursi {
@@ -83,6 +88,8 @@ model Kursi {
 
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
+    @@map("kursi")
+
 }
 
 model Transaksi {
@@ -103,6 +110,8 @@ model Transaksi {
 
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
+    @@map("transaksi")
+
 }
 
 model DetailBooking {
@@ -118,6 +127,8 @@ model DetailBooking {
   nik               String
 
   createdAt         DateTime          @default(now())
+    @@map("detailbooking")
+
 }
 
 enum StatusKursi {
