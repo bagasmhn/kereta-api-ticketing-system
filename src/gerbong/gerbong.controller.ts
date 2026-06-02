@@ -17,7 +17,7 @@ import { UpdateGerbongDto } from './dto/update-gerbong.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorators';
-
+import { ApiBearerAuth } from '@nestjs/swagger';
 @Controller('gerbong')
 export class GerbongController {
   constructor(
@@ -25,6 +25,7 @@ export class GerbongController {
   ) {}
 
   // CREATE
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('SUPER_ADMIN', 'PETUGAS')
   @Post()
@@ -56,6 +57,7 @@ export class GerbongController {
   }
 
   // DELETE
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('SUPER_ADMIN', 'PETUGAS')
   @Delete(':id')

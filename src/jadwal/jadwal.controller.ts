@@ -17,7 +17,7 @@ import { UpdateJadwalDto } from './dto/update-jadwal.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorators';
-
+import { ApiBearerAuth } from '@nestjs/swagger';
 @Controller('jadwal')
 export class JadwalController {
   constructor(
@@ -25,6 +25,7 @@ export class JadwalController {
   ) {}
 
   // CREATE
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('SUPER_ADMIN', 'PETUGAS')
   @Post()
@@ -45,6 +46,7 @@ export class JadwalController {
   }
 
   // UPDATE
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('SUPER_ADMIN', 'PETUGAS')
   @Put(':id')
@@ -56,6 +58,7 @@ export class JadwalController {
   }
 
   // DELETE
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('SUPER_ADMIN', 'PETUGAS')
   @Delete(':id')

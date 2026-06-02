@@ -16,7 +16,7 @@ import { UpdateJenisKeretaDto } from './dto/update-jenis-kereta.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorators';
-
+import { ApiBearerAuth } from '@nestjs/swagger';
 @Controller('jenis-kereta')
 export class JenisKeretaController {
   constructor(
@@ -24,6 +24,7 @@ export class JenisKeretaController {
   ) {}
 
   // CREATE
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('SUPER_ADMIN', 'PETUGAS')
   @Post()
@@ -44,6 +45,7 @@ export class JenisKeretaController {
   }
 
   // UPDATE
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('SUPER_ADMIN', 'PETUGAS')
   @Put(':id')
@@ -55,6 +57,7 @@ export class JenisKeretaController {
   }
 
   // DELETE
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('SUPER_ADMIN', 'PETUGAS')
   @Delete(':id')
