@@ -46,9 +46,14 @@ export class PaymentService {
     const paymentRef =
       'PAY-' + Date.now() + '-' + Math.random().toString(16).slice(2);
 
-    // Karena Prisma belum generate field baru, simpan sementara secara in-memory (simulasi).
-    // Untuk project final, jalankan migration + prisma generate agar paymentMethod/paymentRef tersimpan di DB.
-
+    // Simpan payment ref dan metode pembayaran ke database supaya konfirmasi valid
+    await this.prisma.transaksi.update({
+      where: { id: transaksi.id },
+      data: {
+        paymentRef,
+        paymentMethod: dto.paymentMethod,
+      },
+    });
 
     // Redirect ke halaman pembayaran di frontend (simulasi)
     // frontend bisa bikin page /payment?transaksiId=...&paymentRef=...
