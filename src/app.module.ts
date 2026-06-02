@@ -11,6 +11,7 @@ import { JadwalModule } from './jadwal/jadwal.module';
 import { GerbongModule } from './gerbong/gerbong.module';
 import { KursiModule } from './kursi/kursi.module';
 import { BookingModule } from './booking/booking.module';
+import { PaymentModule } from './payment/payment.module';
 
 
 @Module({
@@ -31,6 +32,7 @@ import { BookingModule } from './booking/booking.module';
     GerbongModule,
     KursiModule,
     BookingModule,
+    PaymentModule,
   ],
 
   controllers: [AppController],

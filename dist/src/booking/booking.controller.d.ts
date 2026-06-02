@@ -26,6 +26,8 @@ export declare class BookingController {
         kodeTransaksi: string;
         totalPenumpang: number;
         totalHarga: number;
+        paymentMethod: string | null;
+        paymentRef: string | null;
         userId: number;
     })[]>;
     myBooking(req: any): Promise<({
@@ -45,6 +47,8 @@ export declare class BookingController {
         kodeTransaksi: string;
         totalPenumpang: number;
         totalHarga: number;
+        paymentMethod: string | null;
+        paymentRef: string | null;
         userId: number;
     })[]>;
     historyUser(req: any, tanggal?: string, bulan?: string): Promise<{
@@ -55,6 +59,8 @@ export declare class BookingController {
         kodeTransaksi: string;
         totalPenumpang: number;
         totalHarga: number;
+        paymentMethod: string | null;
+        paymentRef: string | null;
         userId: number;
     }[]>;
     rekapPemasukan(bulan?: string, tahun?: string): Promise<{

@@ -20,6 +20,7 @@ const update_jenis_kereta_dto_1 = require("./dto/update-jenis-kereta.dto");
 const jwt_auth_guard_1 = require("../auth/guard/jwt-auth.guard");
 const roles_guard_1 = require("../auth/guard/roles.guard");
 const roles_decorators_1 = require("../auth/decorators/roles.decorators");
+const swagger_1 = require("@nestjs/swagger");
 let JenisKeretaController = class JenisKeretaController {
     jenisKeretaService;
     constructor(jenisKeretaService) {
@@ -43,6 +44,7 @@ let JenisKeretaController = class JenisKeretaController {
 };
 exports.JenisKeretaController = JenisKeretaController;
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorators_1.Roles)('SUPER_ADMIN', 'PETUGAS'),
     (0, common_1.Post)(),
@@ -65,6 +67,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], JenisKeretaController.prototype, "findOne", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorators_1.Roles)('SUPER_ADMIN', 'PETUGAS'),
     (0, common_1.Put)(':id'),
@@ -75,6 +78,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], JenisKeretaController.prototype, "update", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorators_1.Roles)('SUPER_ADMIN', 'PETUGAS'),
     (0, common_1.Delete)(':id'),

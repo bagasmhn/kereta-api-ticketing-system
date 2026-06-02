@@ -44,6 +44,24 @@ let JadwalService = class JadwalService {
         }
         return jadwal;
     }
+    async findKursiByJadwal(jadwalId) {
+        await this.findOne(jadwalId);
+        const kursi = await this.prisma.kursi.findMany({
+            where: {
+                gerbong: {
+                    jadwalId,
+                },
+            },
+            include: {
+                gerbong: true,
+            },
+            orderBy: [
+                { gerbongId: 'asc' },
+                { nomor: 'asc' },
+            ],
+        });
+        return kursi;
+    }
     async update(id, dto) {
         await this.findOne(id);
         return this.prisma.jadwal.update({

@@ -20,6 +20,7 @@ const update_jadwal_dto_1 = require("./dto/update-jadwal.dto");
 const jwt_auth_guard_1 = require("../auth/guard/jwt-auth.guard");
 const roles_guard_1 = require("../auth/guard/roles.guard");
 const roles_decorators_1 = require("../auth/decorators/roles.decorators");
+const swagger_1 = require("@nestjs/swagger");
 let JadwalController = class JadwalController {
     jadwalService;
     constructor(jadwalService) {
@@ -34,6 +35,9 @@ let JadwalController = class JadwalController {
     findOne(id) {
         return this.jadwalService.findOne(Number(id));
     }
+    findKursiByJadwal(jadwalId) {
+        return this.jadwalService.findKursiByJadwal(Number(jadwalId));
+    }
     update(id, dto) {
         return this.jadwalService.update(Number(id), dto);
     }
@@ -43,6 +47,7 @@ let JadwalController = class JadwalController {
 };
 exports.JadwalController = JadwalController;
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorators_1.Roles)('SUPER_ADMIN', 'PETUGAS'),
     (0, common_1.Post)(),
@@ -65,6 +70,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], JadwalController.prototype, "findOne", null);
 __decorate([
+    (0, common_1.Get)(':jadwalId/kursi'),
+    __param(0, (0, common_1.Param)('jadwalId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], JadwalController.prototype, "findKursiByJadwal", null);
+__decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorators_1.Roles)('SUPER_ADMIN', 'PETUGAS'),
     (0, common_1.Put)(':id'),
@@ -75,6 +88,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], JadwalController.prototype, "update", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorators_1.Roles)('SUPER_ADMIN', 'PETUGAS'),
     (0, common_1.Delete)(':id'),

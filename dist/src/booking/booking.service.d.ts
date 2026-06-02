@@ -26,6 +26,8 @@ export declare class BookingService {
         kodeTransaksi: string;
         totalPenumpang: number;
         totalHarga: number;
+        paymentMethod: string | null;
+        paymentRef: string | null;
         userId: number;
     })[]>;
     myBooking(userId: number): Promise<({
@@ -45,6 +47,8 @@ export declare class BookingService {
         kodeTransaksi: string;
         totalPenumpang: number;
         totalHarga: number;
+        paymentMethod: string | null;
+        paymentRef: string | null;
         userId: number;
     })[]>;
     checkStatus(kode: string): Promise<{
@@ -74,6 +78,8 @@ export declare class BookingService {
         kodeTransaksi: string;
         totalPenumpang: number;
         totalHarga: number;
+        paymentMethod: string | null;
+        paymentRef: string | null;
         userId: number;
     }>;
     historiUser(userId: number, tanggal?: string, bulan?: string): Promise<{
@@ -84,6 +90,8 @@ export declare class BookingService {
         kodeTransaksi: string;
         totalPenumpang: number;
         totalHarga: number;
+        paymentMethod: string | null;
+        paymentRef: string | null;
         userId: number;
     }[]>;
     historiPetugas(tanggal?: string, bulan?: string): Promise<({
@@ -105,6 +113,8 @@ export declare class BookingService {
         kodeTransaksi: string;
         totalPenumpang: number;
         totalHarga: number;
+        paymentMethod: string | null;
+        paymentRef: string | null;
         userId: number;
     })[]>;
     rekapPemasukan(bulan?: number, tahun?: number): Promise<{

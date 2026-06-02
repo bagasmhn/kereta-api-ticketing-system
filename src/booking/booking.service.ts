@@ -73,11 +73,13 @@ export class BookingService {
 
           totalHarga,
 
-          status: 'SUCCESS',
+          status: 'PENDING',
         },
       });
 
     for (const item of penumpang) {
+      // Pastikan transaksi tidak diproses ganda
+      // Kursi diubah menjadi BOOKED setelah payment sukses
       await this.prisma.detailBooking.create({
         data: {
           transaksiId: transaksi.id,
@@ -91,15 +93,8 @@ export class BookingService {
         },
       });
 
-      await this.prisma.kursi.update({
-        where: {
-          id: item.kursiId,
-        },
-
-        data: {
-          status: 'BOOKED',
-        },
-      });
+      // Kursi baru akan diubah menjadi BOOKED setelah payment sukses.
+      // (Update dilakukan di PaymentService saat transaksi status menjadi SUCCESS.)
     }
 
     return {

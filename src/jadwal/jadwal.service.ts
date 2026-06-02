@@ -49,6 +49,30 @@ export class JadwalService {
     return jadwal;
   }
 
+  // GET KURSI BY JADWAL
+  async findKursiByJadwal(jadwalId: number) {
+    // pastikan jadwal ada
+    await this.findOne(jadwalId);
+
+    const kursi = await this.prisma.kursi.findMany({
+      where: {
+        gerbong: {
+          jadwalId,
+        },
+      },
+      include: {
+        gerbong: true,
+      },
+      orderBy: [
+        { gerbongId: 'asc' },
+        { nomor: 'asc' },
+      ],
+    });
+
+    return kursi;
+  }
+
+
   // UPDATE
   async update(id: number, dto: UpdateJadwalDto) {
     await this.findOne(id);

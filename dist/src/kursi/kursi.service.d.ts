@@ -18,8 +18,8 @@ export declare class KursiService {
         createdAt: Date;
         updatedAt: Date;
         nomor: string;
-        gerbongId: number;
         status: import(".prisma/client").$Enums.StatusKursi;
+        gerbongId: number;
     }>;
     findAll(): Promise<({
         gerbong: {
@@ -35,8 +35,8 @@ export declare class KursiService {
         createdAt: Date;
         updatedAt: Date;
         nomor: string;
-        gerbongId: number;
         status: import(".prisma/client").$Enums.StatusKursi;
+        gerbongId: number;
     })[]>;
     findOne(id: number): Promise<{
         gerbong: {
@@ -52,23 +52,23 @@ export declare class KursiService {
         createdAt: Date;
         updatedAt: Date;
         nomor: string;
-        gerbongId: number;
         status: import(".prisma/client").$Enums.StatusKursi;
+        gerbongId: number;
     }>;
     update(id: number, dto: UpdateKursiDto): Promise<{
         id: number;
         createdAt: Date;
         updatedAt: Date;
         nomor: string;
-        gerbongId: number;
         status: import(".prisma/client").$Enums.StatusKursi;
+        gerbongId: number;
     }>;
     remove(id: number): Promise<{
         id: number;
         createdAt: Date;
         updatedAt: Date;
         nomor: string;
-        gerbongId: number;
         status: import(".prisma/client").$Enums.StatusKursi;
+        gerbongId: number;
     }>;
 }

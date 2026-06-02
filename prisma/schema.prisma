@@ -106,12 +106,15 @@ model Transaksi {
 
   status            StatusBooking     @default(PENDING)
 
+  paymentMethod    String?
+  paymentRef       String?          @unique
+
+
   detailBooking     DetailBooking[]
 
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
     @@map("transaksi")
-
 }
 
 model DetailBooking {

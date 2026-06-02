@@ -89,7 +89,7 @@ let BookingService = class BookingService {
                 userId,
                 totalPenumpang: penumpang.length,
                 totalHarga,
-                status: 'SUCCESS',
+                status: 'PENDING',
             },
         });
         for (const item of penumpang) {
@@ -99,14 +99,6 @@ let BookingService = class BookingService {
                     kursiId: item.kursiId,
                     namaPenumpang: item.namaPenumpang,
                     nik: item.nik,
-                },
-            });
-            await this.prisma.kursi.update({
-                where: {
-                    id: item.kursiId,
-                },
-                data: {
-                    status: 'BOOKED',
                 },
             });
         }

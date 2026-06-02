@@ -45,6 +45,15 @@ export class JadwalController {
     return this.jadwalService.findOne(Number(id));
   }
 
+  // GET KURSI BY JADWAL (PUBLIC)
+  @Get(':jadwalId/kursi')
+  findKursiByJadwal(
+    @Param('jadwalId') jadwalId: string,
+  ) {
+    return this.jadwalService.findKursiByJadwal(Number(jadwalId));
+  }
+
+
   // UPDATE
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)

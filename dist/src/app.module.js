@@ -19,6 +19,7 @@ const jadwal_module_1 = require("./jadwal/jadwal.module");
 const gerbong_module_1 = require("./gerbong/gerbong.module");
 const kursi_module_1 = require("./kursi/kursi.module");
 const booking_module_1 = require("./booking/booking.module");
+const payment_module_1 = require("./payment/payment.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -39,6 +40,7 @@ exports.AppModule = AppModule = __decorate([
             gerbong_module_1.GerbongModule,
             kursi_module_1.KursiModule,
             booking_module_1.BookingModule,
+            payment_module_1.PaymentModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

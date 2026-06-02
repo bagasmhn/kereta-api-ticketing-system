@@ -64,6 +64,23 @@ export declare class JadwalController {
         harga: number;
         jenisKeretaId: number;
     }>;
+    findKursiByJadwal(jadwalId: string): Promise<({
+        gerbong: {
+            id: number;
+            createdAt: Date;
+            updatedAt: Date;
+            nama: string;
+            kapasitas: number;
+            jadwalId: number;
+        };
+    } & {
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
+        nomor: string;
+        status: import(".prisma/client").$Enums.StatusKursi;
+        gerbongId: number;
+    })[]>;
     update(id: string, dto: UpdateJadwalDto): Promise<{
         id: number;
         createdAt: Date;
