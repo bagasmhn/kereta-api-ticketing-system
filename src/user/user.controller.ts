@@ -12,7 +12,8 @@ import { UserService } from './user.service';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorators';
-
+import { ApiBearerAuth } from '@nestjs/swagger';
+@ApiBearerAuth()
 @Controller('user')
 export class UserController {
   constructor(

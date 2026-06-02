@@ -4,24 +4,24 @@ export declare class UserController {
     constructor(userService: UserService);
     findAll(): Promise<{
         id: number;
-        email: string;
         name: string;
+        email: string;
         phone: string;
         role: import(".prisma/client").$Enums.Role;
         createdAt: Date;
     }[]>;
     findOne(id: string): Promise<{
         id: number;
-        email: string;
         name: string;
+        email: string;
         phone: string;
         role: import(".prisma/client").$Enums.Role;
         createdAt: Date;
     } | null>;
     update(id: string, dto: any): Promise<{
         id: number;
-        email: string;
         name: string;
+        email: string;
         password: string;
         phone: string;
         role: import(".prisma/client").$Enums.Role;
@@ -30,8 +30,8 @@ export declare class UserController {
     }>;
     remove(id: string): Promise<{
         id: number;
-        email: string;
         name: string;
+        email: string;
         password: string;
         phone: string;
         role: import(".prisma/client").$Enums.Role;
@@ -40,8 +40,8 @@ export declare class UserController {
     }>;
     findAllAdmin(): Promise<{
         id: number;
-        email: string;
         name: string;
+        email: string;
         phone: string;
         role: import(".prisma/client").$Enums.Role;
         createdAt: Date;

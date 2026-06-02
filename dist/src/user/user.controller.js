@@ -18,6 +18,7 @@ const user_service_1 = require("./user.service");
 const jwt_auth_guard_1 = require("../auth/guard/jwt-auth.guard");
 const roles_guard_1 = require("../auth/guard/roles.guard");
 const roles_decorators_1 = require("../auth/decorators/roles.decorators");
+const swagger_1 = require("@nestjs/swagger");
 let UserController = class UserController {
     userService;
     constructor(userService) {
@@ -85,6 +86,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findAllAdmin", null);
 exports.UserController = UserController = __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
